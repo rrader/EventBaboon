@@ -1,0 +1,11 @@
+[package]
+name = "itkpi-web"
+version = "0.0.1"
+authors = [ "Roman Rader <roman.rader@gmail.com>" ]
+
+[dependencies]
+hyper = "*"
+csv = "*"
+rustc-serialize = "*"
+argparse = "*"
+config = "*"

@@ -1,0 +1,5 @@
+events-api:
+{
+    api-prefix: "http://eventsmonkey.itkpi.pp.ua/events-api";
+    client-key: "XXXXXXXXXXXXXXXXXXx";
+};
