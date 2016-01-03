@@ -7,46 +7,16 @@ extern crate config;
 use std::io::Read;
 
 use hyper::Client;
-// use hyper::header::Connection;
-// use hyper::header::Headers;
 use rustc_serialize::json;
 use std::path::Path;
 
 use argparse::{ArgumentParser, Store};
 use config::reader;
 
+mod events;
+
 header! { (ClientKey, "Client-Key") => [String] }
 
-#[derive(RustcDecodable, RustcEncodable)]
-struct Event {
-    id: usize,
-    title: String
-}
-
-#[derive(RustcDecodable, RustcEncodable)]
-struct Events {
-    events: Vec<Event>,
-    count: usize,
-    offset: usize,
-    next: Option<String>,
-    has_next: bool
-}
-
-impl std::fmt::Display for Events {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        try!(write!(f, "<offset: {}, count: {}>", self.offset, self.count));
-        for item in &self.events {
-            try!(write!(f, "[#{}: {}]", item.id, item.title));
-        }
-        Ok(())
-    }
-}
-
-impl std::fmt::Display for Event {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        write!(f, "[Event \"{}\"]", self.title)
-    }
-}
 
 fn load_csv(prefix: &String, key: &String, output: &Path) {
     let client = Client::new();
@@ -64,7 +34,7 @@ fn load_csv(prefix: &String, key: &String, output: &Path) {
         let mut body = String::new();
         res.read_to_string(&mut body).unwrap();
 
-        let decoded: Events = json::decode(&body).unwrap();
+        let decoded: events::Events = json::decode(&body).unwrap();
         if !decoded.has_next {
             break;
         }
