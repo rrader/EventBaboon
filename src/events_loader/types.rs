@@ -1,4 +1,3 @@
-extern crate rustc_serialize;
 use std;
 
 #[derive(RustcDecodable, RustcEncodable)]
